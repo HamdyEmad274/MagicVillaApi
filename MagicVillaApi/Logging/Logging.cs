@@ -6,7 +6,9 @@
         {
             if (type.ToLower() == "error")
             {
+                Console.BackgroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR - " + message);
+                Console.ResetColor();
             }
             else {
                 Console.WriteLine(message);
