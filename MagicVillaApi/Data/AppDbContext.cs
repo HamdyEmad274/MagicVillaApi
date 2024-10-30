@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MagicVillaApi.Data
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            
+
         }
         public DbSet<Villa> Villas { get; set; }
+        public DbSet<VillaNumber> VillaNumbers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Villa>().HasData(
@@ -72,8 +73,22 @@ namespace MagicVillaApi.Data
                   Sqft = 1100,
                   Amenity = "",
                   DateCreated = DateTime.Now
-              } 
+              }
             );
+            modelBuilder.Entity<VillaNumber>().HasData(
+                new VillaNumber
+                {
+                    VillaNo = 1,
+                    SpecialDetails = "Dapibus ac facilisis in",
+                    CreatedDate = DateTime.Now
+                },
+                new VillaNumber
+                {
+                    VillaNo = 2,
+                    SpecialDetails = "Dapibus ac facilisis in",
+                    CreatedDate = DateTime.Now
+                }
+                );
         }
     }
 }

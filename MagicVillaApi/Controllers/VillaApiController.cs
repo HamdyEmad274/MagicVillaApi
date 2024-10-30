@@ -26,6 +26,8 @@ namespace MagicVillaApi.Controllers
             this._response = new();
         }
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> GetVillas()
         {
             try
@@ -48,18 +50,27 @@ namespace MagicVillaApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetVilla(int id)
         {
-            if (id == 0)
+            try
             {
-                return BadRequest();
+                if (id == 0)
+                {
+                    return BadRequest();
+                }
+                var villa = await dbVilla.GetAsync(v => v.Id == id);
+                if (villa == null)
+                {
+                    return NotFound();
+                }
+                _response.Result = mapper.Map<VillaDTO>(villa);
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
             }
-            var villa = await dbVilla.GetAsync(v => v.Id == id);
-            if (villa == null)
+            catch (Exception ex) 
             {
-                return NotFound();
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
-            _response.Result = mapper.Map<VillaDTO>(villa);
-            _response.StatusCode = HttpStatusCode.OK;
-            return Ok(_response);
+            return _response;
         }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
