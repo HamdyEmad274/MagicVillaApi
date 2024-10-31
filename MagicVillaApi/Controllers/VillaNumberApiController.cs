@@ -97,7 +97,7 @@ namespace MagicVillaApi.Controllers
             return CreatedAtRoute("GetVillaNumber", new { id = villaNumber.VillaNo }, _response);
         }
         [HttpDelete]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> DeleteVillaNumber(int villaNo)
@@ -116,6 +116,9 @@ namespace MagicVillaApi.Controllers
             return Ok(_response);
         }
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> UpdateVillaNumber([FromBody] VillaNumberUpdateDTO updateDTO)
         {
             if (updateDTO == null || updateDTO.VillaNo == 0)
@@ -125,6 +128,7 @@ namespace MagicVillaApi.Controllers
             var villaNumber = mapper.Map<VillaNumber>(updateDTO);
             await dbVillaNumber.UpdateAsync(villaNumber);
             _response.StatusCode = HttpStatusCode.NoContent;
+            _response.Result = mapper.Map<VillaNumberDTO>(villaNumber);
             return Ok(_response);
         }
     }

@@ -12,9 +12,12 @@ namespace MagicVillaApi.Repositories
         {
             villaNumDb = VillaNumDb;
         }
-        public Task<VillaNumber> UpdateAsync(VillaNumber entity)
+        public async Task<VillaNumber> UpdateAsync(VillaNumber entity)
         {
-            throw new NotImplementedException();
+            entity.UpdatedDate = DateTime.Now;
+            villaNumDb.Update(entity);
+            await villaNumDb.SaveChangesAsync();
+            return entity;
         }
     }
 }

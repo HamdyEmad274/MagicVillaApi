@@ -75,20 +75,6 @@ namespace MagicVillaApi.Data
                   DateCreated = DateTime.Now
               }
             );
-            modelBuilder.Entity<VillaNumber>().HasData(
-                new VillaNumber
-                {
-                    VillaNo = 1,
-                    SpecialDetails = "Dapibus ac facilisis in",
-                    CreatedDate = DateTime.Now
-                },
-                new VillaNumber
-                {
-                    VillaNo = 2,
-                    SpecialDetails = "Dapibus ac facilisis in",
-                    CreatedDate = DateTime.Now
-                }
-                );
         }
     }
 }
